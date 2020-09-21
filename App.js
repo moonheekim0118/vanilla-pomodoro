@@ -1,0 +1,1 @@
+const app = PomodoroView(PomodoroApp);
