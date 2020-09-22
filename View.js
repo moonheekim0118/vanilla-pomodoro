@@ -35,7 +35,7 @@ var PomodoroView = function(PomodoroApp){
             const id =parseInt(e.target.id);
             limit = id + Math.floor(id/2);
             if(limit ===1 ){limit++}
-            PomodoroApp('재배').startPomo(2);
+            PomodoroApp('재배').startPomo(20);
             storeTomato(0);
         }
     })    
@@ -61,11 +61,11 @@ var PomodoroView = function(PomodoroApp){
         if(PomoNum<=limit){
             if(PomoNum%2!==0){ // work 
                 document.querySelector('body').classList.add('work');
-                PomodoroApp('재배').startPomo(2);
+                PomodoroApp('재배').startPomo(20);
             }
             else{
                 document.querySelector('body').classList.remove('work');
-                PomodoroApp('휴식').startPomo(1);
+                PomodoroApp('휴식').startPomo(5);
             }
         }
         else{
