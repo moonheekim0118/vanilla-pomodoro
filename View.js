@@ -6,6 +6,8 @@ var PomodoroView = function(PomodoroApp){
     const $time = document.querySelector('.time');
     const $body = document.querySelector('body');
     const $playStatus=document.querySelector('.playStatus');
+    const workTime=20;
+    const restTime=5;
     let status="play";
     let state="재배";
     let PomoCnt;
@@ -51,7 +53,8 @@ var PomodoroView = function(PomodoroApp){
             document.querySelector('.history').classList.add('show');
             const id =parseInt(e.target.id);
             max = id + (id-1);
-            PomodoroApp(state).startPomo(3);
+            if(max===1) max++;
+            PomodoroApp(state).startPomo(workTime);
             storeTomato(0);
         }
     })    
@@ -86,12 +89,12 @@ var PomodoroView = function(PomodoroApp){
             if(PomoCnt%2!==0){ // work 
                 $body.classList.add('work');
                 state="재배";
-                PomodoroApp(state).startPomo(20);
+                PomodoroApp(state).startPomo(workTime);
             }
             else{
                 $body.classList.remove('work');
                 state="휴식"
-                PomodoroApp(state).startPomo(5);
+                PomodoroApp(state).startPomo(restTime);
             }
         }
         else{
