@@ -4,7 +4,7 @@
 
 const audio = new Audio('./resources/alertSound.wav');
 // Pomodoro 정보 저장 담당
-var PomodoroApp = function(){
+var PomodoroApp = function(state){
     var startTime;
     var afterTime;
     var distance;
@@ -13,6 +13,7 @@ var PomodoroApp = function(){
         startTime=new Date();
         afterTime=new Date(startTime);
         afterTime.setMinutes(startTime.getMinutes()+time);
+        app.drawState(state);
         changeTime();
     }
     var changeTime=()=>{ // 남은 시간 변경 
@@ -26,8 +27,9 @@ var PomodoroApp = function(){
                 clearInterval(x);
                 app.controlPomo();
             }
+            console.log(state);
             if(min!==-1 && sec !==-1){
-                app.drawTime(min,sec);}
+                app.drawTime(min,sec,state);}
         }, (1000));
     }
 

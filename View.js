@@ -2,6 +2,7 @@
 // 렌더링 
 var PomodoroView = function(PomodoroApp){
 
+    const $contents = document.querySelector('.contents');
     let PomoNum;
     const storeTomato=(num)=>{
         const now = new Date().getDate();
@@ -24,19 +25,30 @@ var PomodoroView = function(PomodoroApp){
         }
     }
 
-    document.querySelector('.contents').addEventListener("click",(e)=>{
+    $contents.addEventListener("click",(e)=>{
         if(e.target.className='startBtn' && e.target.nodeName!=='SPAN'){
             PomoNum=1;
             document.querySelector('body').classList.add('work');
-            PomodoroApp().startPomo(2);
+            $contents.innerHTML='';
+            PomodoroApp('재배').startPomo(2);
             storeTomato(0);
         }
     })    
 
+    const drawState=(state)=>{
+        const stateEl=document.createElement('div');
+        stateEl.className="state";
+        const timeEl=document.createElement('div');
+        timeEl.className="time";
+        $contents.appendChild(stateEl);
+        $contents.appendChild(timeEl);
+        document.querySelector('.state').innerHTML=` <span class="title">${state}중인 토마토</span>
+        <i class="far fa-stop-circle"></i>`;
+    }
+
     const drawTime =(min,sec)=>{
         const zero = sec < 10 ? 0:'';
-        document.querySelector('.contents').innerHTML=`
-        <span class="title">재배중인 토마토</span>
+        document.querySelector('.time').innerHTML=`
         <div class="leftTime">  <span>${min}분 ${zero}${sec}초 후에 완료됩니다🤤</span></div>`;
     }
 
@@ -45,18 +57,18 @@ var PomodoroView = function(PomodoroApp){
         if(PomoNum<=2){
             if(PomoNum%2!==0){ // work 
                 document.querySelector('body').classList.add('work');
-                PomodoroApp().startPomo(2);
+                PomodoroApp('재배').startPomo(2);
             }
             else{
                 document.querySelector('body').classList.remove('work');
-                PomodoroApp().startPomo(1);
+                PomodoroApp('휴식').startPomo(1);
             }
         }
         else{
-            document.querySelector('.contents').innerHTML=` <button class="startBtn">재배시작하기</button>`
+            $contents.innerHTML=` <button class="startBtn">재배시작하기</button>`
             storeTomato(1);
         }
     }
 
-    return {drawTime,controlPomo};
+    return {drawTime,drawState,controlPomo};
 };
