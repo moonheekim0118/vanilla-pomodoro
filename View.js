@@ -30,6 +30,7 @@ var PomodoroView = function(PomodoroApp){
         if(e.target.className='startBtn' && e.target.nodeName!=='SPAN'){
             PomoNum=1;
             document.querySelector('body').classList.add('work');
+            document.querySelector('.history').classList.add('show');
             $contents.innerHTML='';
             const id =parseInt(e.target.id);
             limit = id + Math.floor(id/2);

@@ -59,3 +59,10 @@ button:hover{
 .completed{
     max-width:150px;
 }
+
+.history{
+    display: none;
+}
+.history.show{
+    display: block;
+}
