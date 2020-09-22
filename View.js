@@ -4,6 +4,7 @@ var PomodoroView = function(PomodoroApp){
 
     const $contents = document.querySelector('.contents');
     let PomoNum;
+    let max;
     const storeTomato=(num)=>{
         const now = new Date().getDate();
         let expiredTime = parseInt(localStorage.getItem('expiredTime'))||0;
@@ -30,6 +31,9 @@ var PomodoroView = function(PomodoroApp){
             PomoNum=1;
             document.querySelector('body').classList.add('work');
             $contents.innerHTML='';
+            const id =parseInt(e.target.id);
+            limit = id + Math.floor(id/2);
+            if(limit ===1 ){limit++}
             PomodoroApp('재배').startPomo(2);
             storeTomato(0);
         }
@@ -42,8 +46,7 @@ var PomodoroView = function(PomodoroApp){
         timeEl.className="time";
         $contents.appendChild(stateEl);
         $contents.appendChild(timeEl);
-        document.querySelector('.state').innerHTML=` <span class="title">${state}중인 토마토</span>
-        <i class="far fa-stop-circle"></i>`;
+        document.querySelector('.state').innerHTML=` <span class="title">${state}중인 토마토</span>`;
     }
 
     const drawTime =(min,sec)=>{
@@ -54,7 +57,7 @@ var PomodoroView = function(PomodoroApp){
 
     const controlPomo=()=>{
         PomoNum++;
-        if(PomoNum<=2){
+        if(PomoNum<=limit){
             if(PomoNum%2!==0){ // work 
                 document.querySelector('body').classList.add('work');
                 PomodoroApp('재배').startPomo(2);

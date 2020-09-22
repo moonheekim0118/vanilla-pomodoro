@@ -9,6 +9,7 @@ var PomodoroApp = function(state){
     var afterTime;
     var distance;
     var min, sec;
+    var x;
     var startPomo=(time)=>{ // 처음 시작 
         startTime=new Date();
         afterTime=new Date(startTime);
@@ -27,9 +28,8 @@ var PomodoroApp = function(state){
                 clearInterval(x);
                 app.controlPomo();
             }
-            console.log(state);
-            if(min!==-1 && sec !==-1){
-                app.drawTime(min,sec,state);}
+            else if(min!==-1 && sec !==-1){
+                app.drawTime(min,sec);}
         }, (1000));
     }
 
