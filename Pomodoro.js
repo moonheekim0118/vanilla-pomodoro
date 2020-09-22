@@ -22,11 +22,12 @@ var PomodoroApp = function(){
             distance = afterTime.getTime()-startTime.getTime();
             min = Math.floor((distance%(1000*60*60))/(1000*60));
             sec = Math.floor((distance%(1000*60))/1000);
-            app.drawTime(min,sec);
             if(distance <=0){
                 clearInterval(x);
                 app.controlPomo();
             }
+            if(min!==-1 && sec !==-1){
+                app.drawTime(min,sec);}
         }, (1000));
     }
 
