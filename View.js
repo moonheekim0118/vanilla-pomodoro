@@ -1,9 +1,14 @@
-
 // 렌더링 
 var PomodoroView = function(PomodoroApp){
 
     const $contents = document.querySelector('.contents');
-    let PomoNum;
+    const $state = document.querySelector('.state');
+    const $time = document.querySelector('.time');
+    const $body = document.querySelector('body');
+    const $playStatus=document.querySelector('.playStatus');
+    let status="play";
+    let state="재배";
+    let PomoCnt;
     let max;
     const storeTomato=(num)=>{
         const now = new Date().getDate();
@@ -26,46 +31,67 @@ var PomodoroView = function(PomodoroApp){
         }
     }
 
+    const drawPlay=()=>{
+        if(status==='stop'){
+            $playStatus.innerHTML=`<i class="fas fa-play"></i>`;
+        }
+        else{
+            $playStatus.innerHTML=`<i class="fas fa-stop-circle"></i>`;
+        }
+    }
+
     $contents.addEventListener("click",(e)=>{
-        if(e.target.className='startBtn' && e.target.nodeName!=='SPAN'){
-            PomoNum=1;
-            document.querySelector('body').classList.add('work');
-            document.querySelector('.history').classList.add('show');
+        if(e.target.className='startBtn' && e.target.nodeName==="BUTTON"){
+            PomoCnt=1;
+            $body.classList.add('work');
             $contents.innerHTML='';
+            $contents.appendChild($state);
+            $contents.appendChild($time);
+            $contents.appendChild($playStatus);
+            document.querySelector('.history').classList.add('show');
             const id =parseInt(e.target.id);
-            limit = id + Math.floor(id/2);
-            if(limit ===1 ){limit++}
-            PomodoroApp('재배').startPomo(20);
+            max = id + (id-1);
+            PomodoroApp(state).startPomo(3);
             storeTomato(0);
         }
     })    
 
-    const drawState=(state)=>{
-        const stateEl=document.createElement('div');
-        stateEl.className="state";
-        const timeEl=document.createElement('div');
-        timeEl.className="time";
-        $contents.appendChild(stateEl);
-        $contents.appendChild(timeEl);
-        document.querySelector('.state').innerHTML=` <span class="title">${state}중인 토마토</span>`;
+    $playStatus.addEventListener("click",(e)=>{
+        status= status==="play"? "stop" : "play";
+        if(status==="play"){
+            playStatus="play";
+            PomodoroApp(state).restartPomo();
+        }
+        else{
+             playStatus="stop";
+        }
+        drawPlay();
+    })
+
+
+    const drawState=()=>{
+        $state.innerHTML=` <span class="title">토마토 ${state} 중</span>`;
+        drawPlay();
     }
 
     const drawTime =(min,sec)=>{
         const zero = sec < 10 ? 0:'';
-        document.querySelector('.time').innerHTML=`
-        <div class="leftTime">  <span>${min}분 ${zero}${sec}초 후에 완료됩니다🤤</span></div>`;
+        $time.innerHTML=`
+        <div class="leftTime">  <span>${min}분 ${zero}${sec}초🤤</span></div>`;
     }
 
     const controlPomo=()=>{
-        PomoNum++;
-        if(PomoNum<=limit){
-            if(PomoNum%2!==0){ // work 
-                document.querySelector('body').classList.add('work');
-                PomodoroApp('재배').startPomo(20);
+        PomoCnt++;
+        if(PomoCnt<=max){
+            if(PomoCnt%2!==0){ // work 
+                $body.classList.add('work');
+                state="재배";
+                PomodoroApp(state).startPomo(20);
             }
             else{
-                document.querySelector('body').classList.remove('work');
-                PomodoroApp('휴식').startPomo(5);
+                $body.classList.remove('work');
+                state="휴식"
+                PomodoroApp(state).startPomo(5);
             }
         }
         else{
